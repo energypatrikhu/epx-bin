@@ -8,6 +8,8 @@ if [[ -z "${1}" ]]; then
   exit
 fi
 
+echo "$ 1: ${1} | ${@:1}" # Debugging line to show the command and its arguments
+
 case "${1}" in
 all)
   echo -e "[$(_c LIGHT_BLUE "Docker - Prune")] $(_c LIGHT_CYAN "Pruning all unused Docker resources...")"
