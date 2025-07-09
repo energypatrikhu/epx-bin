@@ -8,7 +8,7 @@ if [[ -z "${1}" ]]; then
   exit
 fi
 
-echo "$ 1: ${1} | ${@:1}" # Debugging line to show the command and its arguments
+echo "$ 1: ${1} | ${@:2}" # Debugging line to show the command and its arguments
 
 case "${1}" in
 all)
