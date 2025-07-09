@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source "$EPX_HOME/helpers/colorize.sh"
-source "$EPX_HOME/helpers/colors.sh"
+source "${EPX_HOME}/helpers/colorize.sh"
+source "${EPX_HOME}/helpers/colors.sh"
 
 # check if Python is installed
 if ! command -v python3 &>/dev/null; then
@@ -10,7 +10,7 @@ if ! command -v python3 &>/dev/null; then
 fi
 
 # check if no arguments are provided
-if [ -z "$1" ]; then
+if [ -z ${1} ]; then
   echo -e "[$(_c LIGHT_BLUE "Python - Remove")] $(_c LIGHT_YELLOW "Usage: py.remove <package>")"
 
   echo -e "[$(_c LIGHT_BLUE "Python - Remove")] $(_c LIGHT_YELLOW "Alias:")"
@@ -20,13 +20,13 @@ if [ -z "$1" ]; then
 fi
 
 # remove package
-packages=$(printf "%s, " "$@" | sed 's/, $//')
-echo -e "[$(_c LIGHT_BLUE "Python - Remove")] Removing $(_c LIGHT_YELLOW "$packages")"
-pip uninstall "$@"
+packages=$(printf "%s, " "${@}" | sed 's/, $//')
+echo -e "[$(_c LIGHT_BLUE "Python - Remove")] Removing $(_c LIGHT_YELLOW "${packages}")"
+pip uninstall "${@}"
 
 # check if removal was successful, then remove from requirements.txt, line by line
 if [ $? -eq 0 ]; then
-  for package in "$@"; do
-    sed -i "/$package/d" requirements.txt
+  for package in "${@}"; do
+    sed -i "/${package}/d" requirements.txt
   done
 fi

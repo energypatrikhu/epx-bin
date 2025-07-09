@@ -2,4 +2,4 @@
 
 [ "$#" -eq 0 ] && echo -e "No input files" && return
 
-time rsync -rxzvuahP --stats "$@"
+time rsync -rxzvuahP --stats "${@}"

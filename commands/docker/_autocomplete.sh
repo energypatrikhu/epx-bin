@@ -34,26 +34,26 @@ _d_autocomplete_prune() {
 complete -F _d_autocomplete_prune d.prune
 
 _d_autocomplete_templates() {
-  local available_templates="$(find "$EPX_HOME"/.templates/docker/dockerfile -maxdepth 1 -type f -name '*.template' -exec basename {} .template \; | tr '\n' ' ')"
-  _autocomplete "$available_templates"
+  local available_templates="$(find "${EPX_HOME}"/.templates/docker/dockerfile -maxdepth 1 -type f -name '*.template' -exec basename {} .template \; | tr '\n' ' ')"
+  _autocomplete "${available_templates}"
 }
 complete -F _d_autocomplete_templates d.make
 complete -F _d_autocomplete_templates d.mk
 
 _d_autocomplete_up() {
-  . "$EPX_HOME/.config/d.up.config"
+  . "${EPX_HOME}/.config/d.up.config"
 
   container_dirs=()
-  for d in "$CONTAINERS_DIR"/*; do
-    if [ -d "$d" ]; then
-      if [[ -f "$d/docker-compose.yml" ]]; then
-        container_dirs+=("$(basename -- "$d")")
+  for d in "${CONTAINERS_DIR}"/*; do
+    if [ -d "${d}" ]; then
+      if [[ -f "${d}/docker-compose.yml" ]]; then
+        container_dirs+=("$(basename -- "${d}")")
       fi
     fi
   done
 
   _autocomplete "${container_dirs[@]}"
 }
-if [[ -f "$EPX_HOME/.config/d.up.config" ]]; then
+if [[ -f "${EPX_HOME}/.config/d.up.config" ]]; then
   complete -F _d_autocomplete_up d.up
 fi

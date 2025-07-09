@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source "$EPX_HOME/helpers/colorize.sh"
-source "$EPX_HOME/helpers/colors.sh"
+source "${EPX_HOME}/helpers/colorize.sh"
+source "${EPX_HOME}/helpers/colors.sh"
 
 # check if Python is installed
 if ! command -v python3 &>/dev/null; then
@@ -10,24 +10,24 @@ if ! command -v python3 &>/dev/null; then
 fi
 
 # check if directory is provided
-if [ -z "$1" ]; then
+if [ -z ${1} ]; then
   echo -e "[$(_c LIGHT_BLUE "Python - Create")] $(_c LIGHT_YELLOW "Usage: py.create <directory>")"
   return 1
 fi
 
 # check if directory already exists
-if [ -d "$1" ]; then
-  echo -e "[$(_c LIGHT_BLUE "Python - Create")] $(_c LIGHT_RED "Directory") $1 $(_c LIGHT_RED "already exists")"
+if [ -d ${1} ]; then
+  echo -e "[$(_c LIGHT_BLUE "Python - Create")] $(_c LIGHT_RED "Directory") ${1} $(_c LIGHT_RED "already exists")"
   return 1
 fi
 
 # create directory
-echo -e "[$(_c LIGHT_BLUE "Python - Create")] Creating directory $(_c LIGHT_YELLOW "$1")"
-mkdir -p "$1"
+echo -e "[$(_c LIGHT_BLUE "Python - Create")] Creating directory $(_c LIGHT_YELLOW ${1})"
+mkdir -p ${1}
 
 # change directory
-echo -e "[$(_c LIGHT_BLUE "Python - Create")] Changing directory to $(_c LIGHT_YELLOW "$1")"
-cd "$1" || return 1
+echo -e "[$(_c LIGHT_BLUE "Python - Create")] Changing directory to $(_c LIGHT_YELLOW ${1})"
+cd ${1} || return 1
 
 # create requirements.txt and main.py
 echo -e "[$(_c LIGHT_BLUE "Python - Create")] Creating $(_c LIGHT_YELLOW "requirements.txt") and $(_c LIGHT_YELLOW "main.py")"

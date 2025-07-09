@@ -1,1 +1,1 @@
-source "$EPX_HOME/commands/python/py.remove.sh"
+source "${EPX_HOME}/commands/python/py.remove.sh"

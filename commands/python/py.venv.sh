@@ -1,10 +1,10 @@
 #!/bin/bash
 
-source "$EPX_HOME/helpers/colorize.sh"
-source "$EPX_HOME/helpers/colors.sh"
+source "${EPX_HOME}/helpers/colorize.sh"
+source "${EPX_HOME}/helpers/colors.sh"
 
 # help message
-if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+if [ ${1} == "-h" ] || [ ${1} == "--help" ]; then
   echo -e "[$(_c LIGHT_BLUE "Python - VENV")] $(_c LIGHT_YELLOW "Usage: py.venv")"
   echo -e "[$(_c LIGHT_BLUE "Python - VENV")] $(_c LIGHT_YELLOW "Description: Activate, deactivate or create a Python virtual environment")"
 
@@ -20,7 +20,7 @@ if ! command -v python3 &>/dev/null; then
 fi
 
 # check if virtual environment is activated, then deactivate
-if [ -n "$VIRTUAL_ENV" ]; then
+if [ -n "${VIRTUAL_ENV}" ]; then
   echo -e "[$(_c LIGHT_BLUE "Python - VENV")] Deactivating virtual environment"
   deactivate
   return 1

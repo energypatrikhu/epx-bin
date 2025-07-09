@@ -1,1 +1,1 @@
-source "$EPX_HOME/commands/docker/d.list.sh"
+source "${EPX_HOME}/commands/docker/d.list.sh"

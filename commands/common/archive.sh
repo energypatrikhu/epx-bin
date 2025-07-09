@@ -2,6 +2,6 @@
 
 [ "$#" -eq 0 ] && echo -e "No input files" && return
 
-fbasename=$(basename -- "$@")
+fbasename=$(basename -- "${@}")
 
-time tar -cvf "${fbasename}.tar" "$@"
+time tar -cvf "${fbasename}.tar" "${@}"
