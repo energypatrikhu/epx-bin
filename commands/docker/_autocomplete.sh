@@ -18,9 +18,9 @@ complete -F _d_autocomplete_all d.remove
 complete -F _d_autocomplete_all d.rm
 complete -F _d_autocomplete_all d.restart
 complete -F _d_autocomplete_all d.start
+complete -F _d_autocomplete_all d.stop
 complete -F _d_autocomplete_all d.stats
 complete -F _d_autocomplete_all d.stat
-complete -F _d_autocomplete_all d.stop
 
 _d_autocomplete_list() {
   _autocomplete "created restarting running removing paused exited dead"
@@ -40,7 +40,7 @@ _d_autocomplete_templates() {
 complete -F _d_autocomplete_templates d.make
 complete -F _d_autocomplete_templates d.mk
 
-_d.up_autocomplete() {
+_d_autocomplete_up() {
   . "$EPX_HOME/.config/d.up.config"
 
   container_dirs=()
@@ -55,5 +55,5 @@ _d.up_autocomplete() {
   _autocomplete "${container_dirs[@]}"
 }
 if [[ -f "$EPX_HOME/.config/d.up.config" ]]; then
-  complete -F _d.up_autocomplete d.up
+  complete -F _d_autocomplete_up d.up
 fi
