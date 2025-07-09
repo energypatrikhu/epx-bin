@@ -51,11 +51,11 @@ environments=$(printf "%s" "${container_info}" | jq -r --argjson maxlen "${trunc
     | if . == null or length == 0 then "n/a"
       else map(
         capture("^(?<key>[^=]+)=(?<value>.*)")
-        | .key as ${k}
-        | .value as ${v}
-        | (${k} + ": ") as ${prefix}
-        | (${maxlen} - (${prefix} | length)) as ${val_max}
-        | "\(${k}): \(${v} | if (length > ${val_max}) then .[:(${val_max}-3)] + "..." else . end)"
+        | .key as $k
+        | .value as $v
+        | ($k + ": ") as $prefix
+        | ($maxlen - ($prefix | length)) as $val_max
+        | "\($k): \($v | if (length > $val_max) then .[:($val_max-3)] + "..." else . end)"
       ) | .[]
       end
   ')
