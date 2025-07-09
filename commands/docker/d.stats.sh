@@ -68,7 +68,7 @@ volumes=$(printf "%s" "$container_info" | jq -r '
   ')
 
 # Extract network details (handle null and empty objects)
-networks
+networks=""
 if [ "$network_mode" = "host" ]; then
   networks="Host network mode (no container-specific IPs)"
 else
@@ -243,14 +243,21 @@ if [ "$volumes" = "n/a" ]; then
   print_row "Volumes" "n/a"
 else
   first_volume=true
+  volumes_sorted=()
+  unset sorted_volumes # Ensure no leftover values from previous runs
   while IFS= read -r volume; do
+    volumes_sorted+=("$volume")
+  done <<<"$volumes"
+  IFS=$'\n' read -rd '' -a sorted_volumes < <(printf "%s\n" "${volumes_sorted[@]}" | sort && printf '\0')
+  for volume in "${sorted_volumes[@]}"; do
     if $first_volume; then
       print_row "Volumes" "$volume"
       first_volume=false
     else
       print_row "" "$volume"
     fi
-  done <<<"$volumes"
+  done
+  unset volumes_sorted sorted_volumes # Clean up for next container
 fi
 print_separator
 
