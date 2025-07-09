@@ -53,6 +53,6 @@ else
 fi
 
 chmod a+x "$EPX_BIN"
-"$EPX_BIN"
+source "$EPX_BIN"
 
 echo "EPX setup complete, if there's no autocomplete, please restart your terminal or run 'source $EPX_BIN' to apply changes."
