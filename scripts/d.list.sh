@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# source: /storage/scripts/shell/epx-bin/helpers/colorize.sh
+_c() {
+  local color="$1"
+  local text="$2"
+
+  for key in "${!EPX_COLORS[@]}"; do
+    if [[ "$color" == "$key" ]]; then
+      text="${EPX_COLORS[$key]}$text${EPX_COLORS[NC]}"
+      break
+    fi
+  done
+
+  echo -e "$text"
+}
+
+# source: /storage/scripts/shell/epx-bin/helpers/colors.sh
+declare -A EPX_COLORS
+EPX_COLORS=(
+  ["LIGHT_BLUE"]="\033[1;34m"
+  ["LIGHT_GREEN"]="\033[1;32m"
+  ["LIGHT_RED"]="\033[1;31m"
+  ["LIGHT_YELLOW"]="\033[1;33m"
+  ["LIGHT_CYAN"]="\033[1;36m"
+  ["LIGHT_PURPLE"]="\033[1;35m"
+  ["LIGHT_GRAY"]="\033[1;30m"
+  ["DARK_GRAY"]="\033[0;30m"
+  ["RED"]="\033[0;31m"
+  ["GREEN"]="\033[0;32m"
+  ["BROWN"]="\033[0;33m"
+  ["BLUE"]="\033[0;34m"
+  ["PURPLE"]="\033[0;35m"
+  ["CYAN"]="\033[0;36m"
+  ["WHITE"]="\033[0;37m"
+  ["NC"]="\033[0m" # No color
+)
+
+# source: /storage/scripts/shell/epx-bin/helpers/shared.sh
+EPX_IFS=', '
+EPX_BULLET="●"
+
+
+state_filter="$*"
+
+if [ -z "$state_filter" ]; then
+  data=$(docker ps -a --format "{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}")
+else
+  filters=""
+  for filter in $state_filter; do
+    filters="$filters --filter status=$filter"
+  done
+  data=$(docker ps -a --format "{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}" "$filters")
+fi
+
+if [ -z "$data" ]; then
+  echo -e "[$(_c LIGHT_BLUE "Docker - List")] $(_c LIGHT_YELLOW "No containers found")"
+  exit
+fi
+
+id_width=12
+names_width=5
+image_width=5
+status_width=7
+
+while IFS=$'\t' read -r id names image status; do
+  id_width=$((${#id} > id_width ? ${#id} : id_width))
+  names_width=$((${#names} > names_width ? ${#names} : names_width))
+  image_width=$((${#image} > image_width ? ${#image} : image_width))
+  status_width=$((${#status} > status_width ? ${#status} : status_width))
+done <<EOF
+$data
+EOF
+
+names_width=$((names_width + 2))
+separator=$(printf "+%-${id_width}s--+%-${names_width}s--+%-${image_width}s--+%-${status_width}s--+\n" | tr ' ' '-')
+
+echo -e "$separator"
+printf "| %-${id_width}s | %-${names_width}s | %-${image_width}s | %-${status_width}s |\n" "CONTAINER ID" "NAME" "IMAGE" "STATUS"
+echo -e "$separator"
+
+# Sort data by the second column (names)
+sorted_data=$(printf "%s\n" "$data" | sort -k2,2)
+
+while IFS=$'\t' read -r id names image status; do
+
+  if printf "%s" "$status" | grep -q "Up"; then
+    bullet=$(_c GREEN "$EPX_BULLET")
+  else
+    bullet=$(_c RED "$EPX_BULLET")
+  fi
+
+  names="$bullet $names"
+  visible_names_length=$(printf "%s" "$names" | sed 's/\x1b\[[0-9;]*m//g' | wc -m)
+  padding=$((names_width - visible_names_length))
+
+  printf "| %-${id_width}s | %s%-${padding}s | %-${image_width}s | %-${status_width}s |\n" "$id" "$names" "" "$image" "$status"
+done <<EOF
+$sorted_data
+EOF
+
+echo -e "$separator"

@@ -1,0 +1,2 @@
+EPX_IFS=', '
+EPX_BULLET="●"
