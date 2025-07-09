@@ -3,22 +3,24 @@
 source "$EPX_HOME/helpers/colorize.sh"
 source "$EPX_HOME/helpers/colors.sh"
 
-EPX_COMMANDS=()
-for file in "$EPX_HOME"/commands/epx/utils/*.sh; do
-  EPX_COMMANDS+=("$(basename "$file" .sh)")
-done
-
 declare -A EPX_UTILS
 EPX_UTILS["self-update"]="Update the EPX CLI to the latest version"
+source "$EPX_HOME/commands/epx/utils/_self-update.sh"
+
 EPX_UTILS["update-bees"]="Update bees to the latest version"
+source "$EPX_HOME/commands/epx/utils/_update-bees.sh"
+
 EPX_UTILS["backup"]="Backup files or directories | <input path> <output path> <backups to keep> [excluded directories,files separated with (,)]"
+source "$EPX_HOME/commands/epx/utils/_backup.sh"
+
+# ---------------------------------------------------------------------------------------------------------------------------- #
 
 COMMAND=$1
 ARGS=("${@:2}")
 
-for cmd in "${EPX_COMMANDS[@]}"; do
-  if [[ "_$COMMAND" == "$cmd" ]]; then
-    source "$EPX_HOME/commands/epx/utils/${cmd}.sh" "${ARGS[@]}"
+for cmd in "${!EPX_UTILS[@]}"; do
+  if [[ "$COMMAND" == "$cmd" ]]; then
+    "__epx_${cmd//-/_}" "${ARGS[@]}"
     exit
   fi
 done
