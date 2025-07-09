@@ -64,7 +64,7 @@ _load_functions() {
 
       echo "Linking $file_name to /usr/local/bin/$file_name"
 
-      if ln -s "$EPX_HOME/scripts/$file_name" "/usr/local/bin/$script_name"; then
+      if ln -s "$EPX_HOME/scripts/$file_name" "/usr/local/bin/$script_name" >/dev/null 2>&1; then
         echo "Linked $file_name to /usr/local/bin/$script_name"
         chmod a+x "/usr/local/bin/$script_name"
       fi
