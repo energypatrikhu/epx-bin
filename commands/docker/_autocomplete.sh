@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. "$EPX_HOME"/helpers/autocomplete.sh
-
 _d_autocomplete() {
   _autocomplete "$(docker ps -a --format '{{.Names}}')"
 }
