@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ ! -f "$EPX_HOME/.config/minecraft.config" ]]; then
-  return 1
+  exit 1
 fi
 . "$EPX_HOME/.config/minecraft.config"
 
@@ -9,7 +9,7 @@ source "$EPX_HOME/commands/game-servers/minecraft/_helpers.sh"
 
 if [[ ! -d "$MINECRAFT_PROJECT_DIR" ]]; then
   echo "Error: Minecraft project directory does not exist. Please run 'mc.install' first."
-  return 1
+  exit 1
 fi
 
 __epx-mc-get-env-value() {
