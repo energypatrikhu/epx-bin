@@ -52,6 +52,5 @@ else
   echo "Linking script not found, skipping."
 fi
 
-source "$EPX_BIN"
-
-echo "EPX setup complete, please restart your terminal or run 'source $EPX_BIN' to apply changes."
+"$EPX_BIN"
+echo "EPX setup complete, if there's no autocomplete, please restart your terminal or run 'source $EPX_BIN' to apply changes."
