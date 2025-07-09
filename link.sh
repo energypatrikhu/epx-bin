@@ -39,8 +39,6 @@ _build_function() {
   chmod a+x "$output_file"
 
   rm -f "$temp_file"
-
-  echo "Built $output_file"
 }
 
 _load_functions() {
@@ -62,10 +60,7 @@ _load_functions() {
 
       script_name="${file_name%.sh}"
 
-      echo "Linking $file_name to /usr/local/bin/$file_name"
-
       if ln -s "$EPX_HOME/scripts/$file_name" "/usr/local/bin/$script_name" >/dev/null 2>&1; then
-        echo "Linked $file_name to /usr/local/bin/$script_name"
         chmod a+x "/usr/local/bin/$script_name"
       fi
     fi
