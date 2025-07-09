@@ -33,8 +33,6 @@ else
   echo "$EPX_BIN already exists, skipping creation."
 fi
 
-source "$EPX_BIN"
-
 # Setup crontab for epx self-update
 export CRON_FILE="/etc/cron.daily/epx-self-update"
 if ! grep -qF "$CRON_JOB" "$CRON_FILE"; then
@@ -53,3 +51,5 @@ if [ -f "$EPX_HOME/link.sh" ]; then
 else
   echo "Linking script not found, skipping."
 fi
+
+source "$EPX_BIN"
