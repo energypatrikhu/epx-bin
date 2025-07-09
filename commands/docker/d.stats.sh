@@ -47,25 +47,25 @@ network_mode=$(printf "%s" "${container_info}" | jq -r '.[0].HostConfig.NetworkM
 console_width=$(tput cols)
 truncated_length=$((console_width - 19)) # Reserve space for padding and labels
 environments=$(printf "%s" "${container_info}" | jq -r --argjson maxlen "${truncated_length}" '
-    .[0].Config.Env
-    | if . == null or length == 0 then "n/a"
-      else map(
-        capture("^(?<key>[^=]+)=(?<value>.*)")
-        | .key as $k
-        | .value as $v
-        | ($k + ": ") as $prefix
-        | ($maxlen - ($prefix | length)) as $val_max
-        | "\($k): \($v | if (length > $val_max) then .[:($val_max-3)] + "..." else . end)"
-      ) | .[]
-      end
-  ')
+  .[0].Config.Env
+  | if . == null or length == 0 then "n/a"
+    else map(
+      capture("^(?<key>[^=]+)=(?<value>.*)")
+      | .key as $k
+      | .value as $v
+      | ($k + ": ") as $prefix
+      | ($maxlen - ($prefix | length)) as $val_max
+      | "\($k): \($v | if (length > $val_max) then .[:($val_max-3)] + "..." else . end)"
+    ) | .[]
+    end
+')
 
 # Extract volumes (handle null and empty arrays)
 volumes=$(printf "%s" "${container_info}" | jq -r '
-    if (.[0].Mounts | length) == 0 then "n/a"
-    else .[0].Mounts[] | "\(.Source) -> \(.Destination) (\(.RW | if . then "rw" else "ro" end))"
-    end
-  ')
+  if (.[0].Mounts | length) == 0 then "n/a"
+  else .[0].Mounts[] | "\(.Source) -> \(.Destination) (\(.RW | if . then "rw" else "ro" end))"
+  end
+')
 
 # Extract network details (handle null and empty objects)
 networks=""
@@ -73,23 +73,23 @@ if [ "${network_mode}" = "host" ]; then
   networks="Host network mode (no container-specific IPs)"
 else
   networks=$(printf "%s" "${container_info}" | jq -r '
-      .[0].NetworkSettings.Networks
-      | if . == null or length == 0 then "n/a"
-        else to_entries[] |
-          .key,
-          (if .value.IPAddress != null and .value.IPAddress != "" then "  IPv4: " + .value.IPAddress else empty end),
-          (if .value.GlobalIPv6Address != null and .value.GlobalIPv6Address != "" then "  IPv6: " + .value.GlobalIPv6Address else empty end)
-        end
-    ')
+    .[0].NetworkSettings.Networks
+    | if . == null or length == 0 then "n/a"
+      else to_entries[] |
+        .key,
+        (if .value.IPAddress != null and .value.IPAddress != "" then "  IPv4: " + .value.IPAddress else empty end),
+        (if .value.GlobalIPv6Address != null and .value.GlobalIPv6Address != "" then "  IPv6: " + .value.GlobalIPv6Address else empty end)
+      end
+  ')
 fi
 
 # Extract port mappings (handle null and empty objects)
 ports=$(printf "%s" "${container_info}" | jq -r '
-    .[0].NetworkSettings.Ports
-    | if . == null or length == 0 then "n/a"
-        else to_entries[] | "\(.key) -> \(.value[]?.HostPort // "n/a")"
-      end
-  ' | sort -u)
+  .[0].NetworkSettings.Ports
+  | if . == null or length == 0 then "n/a"
+      else to_entries[] | "\(.key) -> \(.value[]?.HostPort // "n/a")"
+    end
+' | sort -u)
 
 # check if attr has value
 [ -z "${name}" ] && name="-"
