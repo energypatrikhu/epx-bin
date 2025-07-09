@@ -6,8 +6,10 @@ if [[ ! -f "$EPX_HOME/.config/minecraft.config" ]]; then
 fi
 . "$EPX_HOME/.config/minecraft.config"
 
-local server_type="$1"
-local server_name="$2"
+source "$EPX_HOME/commands/game-servers/minecraft/_helpers.sh"
+
+server_type="$1"
+server_name="$2"
 
 if [[ -z "$server_type" ]]; then
   echo "Usage: mc.create <server_type> [server_name]"
@@ -16,7 +18,7 @@ if [[ -z "$server_type" ]]; then
   exit 1
 fi
 
-local config_file="$MINECRAFT_PROJECT_DIR/configs/examples/@example.$server_type.env"
+config_file="$MINECRAFT_PROJECT_DIR/configs/examples/@example.$server_type.env"
 if [[ ! -f "$config_file" ]]; then
   echo "Error: Configuration file for server type '$server_type' does not exist."
   echo "Available server types:"
@@ -24,8 +26,8 @@ if [[ ! -f "$config_file" ]]; then
   exit 1
 fi
 
-local date=$(date +%Y-%m-%d)
-local new_config_file="$MINECRAFT_PROJECT_DIR/configs/${server_type}_${date}_${server_name:-CHANGEME}.env"
+date=$(date +%Y-%m-%d)
+new_config_file="$MINECRAFT_PROJECT_DIR/configs/${server_type}_${date}_${server_name:-CHANGEME}.env"
 
 if [[ -f "$new_config_file" ]]; then
   echo "Error: Configuration file '$new_config_file' already exists. Please choose a different name."
