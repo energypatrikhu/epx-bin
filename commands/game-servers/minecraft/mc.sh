@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [[ ! -f "$EPX_HOME/.config/minecraft.config" ]]; then
+  echo "Error: Minecraft configuration file not found. Please configure '$EPX_HOME/.config/minecraft.config' and run 'mc.install'."
   exit 1
 fi
 . "$EPX_HOME/.config/minecraft.config"
@@ -52,14 +53,10 @@ __epx-mc-get-backup-enabled() {
   fi
 }
 
-__epx-mc-display-help() {
+if [[ -z "$1" ]]; then
   echo "Usage: mc <server>"
   echo "Available servers:"
   __epx-mc-get-configs $1 | sed 's/^/  /'
-}
-
-if [[ -z "$1" ]]; then
-  __epx-mc-display-help
   exit 1
 fi
 
