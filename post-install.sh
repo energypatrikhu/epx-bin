@@ -8,7 +8,7 @@ if [ -z "${EPX_HOME}" ]; then
   export EPX_HOME="/usr/local/epx"
 fi
 
-if [[ -f ${ENV_FILE} ]]; then
+if [[ -f "${ENV_FILE}" ]]; then
   if ! grep -qF "EPX_HOME" "${ENV_FILE}"; then
     echo "Adding EPX_HOME to ${ENV_FILE}"
     echo "EPX_HOME=\"${EPX_HOME}\"" | sudo tee -a "${ENV_FILE}" >/dev/null
@@ -23,7 +23,7 @@ if [[ ! -f "${EPX_BIN}" ]]; then
   echo "Creating ${EPX_BIN}"
   echo "#!/bin/bash" | sudo tee "${EPX_BIN}" >/dev/null
 
-  if [[ ! -f ${ENV_FILE} ]]; then
+  if [[ ! -f "${ENV_FILE}" ]]; then
     echo "export EPX_HOME=\"${EPX_HOME}\"" | sudo tee -a "${EPX_BIN}" >/dev/null
   fi
 

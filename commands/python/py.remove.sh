@@ -10,7 +10,7 @@ if ! command -v python3 &>/dev/null; then
 fi
 
 # check if no arguments are provided
-if [ -z ${1} ]; then
+if [ -z "${1}" ]; then
   echo -e "[$(_c LIGHT_BLUE "Python - Remove")] $(_c LIGHT_YELLOW "Usage: py.remove <package>")"
 
   echo -e "[$(_c LIGHT_BLUE "Python - Remove")] $(_c LIGHT_YELLOW "Alias:")"

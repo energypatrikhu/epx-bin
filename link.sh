@@ -50,7 +50,7 @@ _load_functions() {
     if [[ -f "${element}" ]] && [[ "${element}" == *.sh ]]; then
       file_name=$(basename "${element}")
 
-      [[ ${file_name} =~ ^_ ]] && continue
+      [[ "${file_name}" =~ ^_ ]] && continue
 
       if ! _build_function "${element}"; then
         echo "Failed to build ${element}"

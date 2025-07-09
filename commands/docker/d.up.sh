@@ -3,17 +3,17 @@
 source "${EPX_HOME}/helpers/colorize.sh"
 source "${EPX_HOME}/helpers/colors.sh"
 
-if [[ ${1} = "--help" ]] || [[ ${1} = "-h" ]]; then
+if [[ "${1}" = "--help" ]] || [[ "${1}" = "-h" ]]; then
   echo -e "[$(_c LIGHT_BLUE "Docker - Up")] $(_c LIGHT_YELLOW "Usage: d.up [all / [container1, container2, ...]]")"
   exit
 fi
 
 pull=false
-if [[ ${1} = "--pull" ]] || [[ ${1} = "-p" ]]; then
+if [[ "${1}" = "--pull" ]] || [[ "${1}" = "-p" ]]; then
   pull=true
 fi
 
-if [ ${1} = "all" ]; then
+if [ "${1}" = "all" ]; then
   if [[ ! -f "${EPX_HOME}/.config/d.up.config" ]]; then
     echo -e "[$(_c LIGHT_BLUE "Docker - Up")] $(_c LIGHT_RED "Config file not found, please create one at ${EPX_HOME}/.config/d.up.config")"
     exit

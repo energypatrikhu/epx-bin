@@ -14,12 +14,12 @@ if [[ ! -d "${MINECRAFT_PROJECT_DIR}" ]]; then
 fi
 
 __epx-mc-get-env-value() {
-  local config_env=${1}
-  local var_name=${2}
+  local config_env="${1}"
+  local var_name="${2}"
   grep -iE "^${var_name}\s*=" "${config_env}" | sed -E "s/^${var_name}\s*=\s*//I; s/[[:space:]]*$//"
 }
 __epx-mc-get-java-type() {
-  local config_env=${1}
+  local config_env="${1}"
   local java_version=$(__epx-mc-get-env-value "${config_env}" "JAVA_VERSION")
 
   # if version 8 use "graalvm-ce"
@@ -31,8 +31,8 @@ __epx-mc-get-java-type() {
   fi
 }
 __epx-mc-set-flags() {
-  local config_env=${1}
-  local tmp_env_file=${2}
+  local config_env="${1}"
+  local tmp_env_file="${2}"
   local java_version=$(__epx-mc-get-env-value "${config_env}" "JAVA_VERSION")
 
   # If JAVA_VERSION < 17 use AIKAR, else use MEOWICE flags
@@ -44,7 +44,7 @@ __epx-mc-set-flags() {
   fi
 }
 __epx-mc-get-backup-enabled() {
-  local config_env=${1}
+  local config_env="${1}"
   local backup_enabled=$(__epx-mc-get-env-value "${config_env}" "BACKUP")
   if [[ "${backup_enabled,,}" == "true" ]]; then
     echo "true"
@@ -53,16 +53,16 @@ __epx-mc-get-backup-enabled() {
   fi
 }
 
-if [[ -z ${1} ]]; then
+if [[ -z "${1}" ]]; then
   echo "Usage: mc <server>"
   echo "Available servers:"
-  __epx-mc-get-configs ${1} | sed 's/^/  /'
+  __epx-mc-get-configs "${1}" | sed 's/^/  /'
   exit 1
 fi
 
-file_basename=$(basename -- ${1})
+file_basename=$(basename -- "${1}")
 file_basename="${file_basename%.env}"
-server_type=$(echo "${file_basename}" | awk -F'_' '{print ${1}}')
+server_type=$(echo "${file_basename}" | awk -F'_' '{print "${1}"}')
 project_name="mc_${file_basename}"
 compose_file_base="${MINECRAFT_PROJECT_DIR}/compose/docker-compose.base.yml"
 compose_file_full="${MINECRAFT_PROJECT_DIR}/compose/docker-compose.full.yml"

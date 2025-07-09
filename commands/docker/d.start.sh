@@ -3,12 +3,12 @@
 source "${EPX_HOME}/helpers/colorize.sh"
 source "${EPX_HOME}/helpers/colors.sh"
 
-if [[ -z ${1} ]]; then
+if [[ -z "${1}" ]]; then
   echo -e "[$(_c LIGHT_BLUE "Docker - Start")] $(_c LIGHT_YELLOW "Usage: d.start <all / container>")"
   exit
 fi
 
-if [[ ${1} == "all" ]]; then
+if [[ "${1}" == "all" ]]; then
   echo -e "[$(_c LIGHT_BLUE "Docker - Start")] $(_c LIGHT_GREEN "Starting all containers...")"
   docker container start $(docker ps -aq) >/dev/null 2>&1
   echo -e "[$(_c LIGHT_BLUE "Docker - Start")] $(_c LIGHT_GREEN "All containers started")"
@@ -23,7 +23,7 @@ else
   containers=""
   for i in "${arr[@]}"; do
     i=$(echo "${i}" | xargs) # trim spaces
-    if [[ -n ${containers} ]]; then
+    if [[ -n "${containers}" ]]; then
       containers+=", "
     fi
     containers+="$(_c LIGHT_BLUE "${i}")"

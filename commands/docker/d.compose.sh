@@ -3,7 +3,7 @@
 source "${EPX_HOME}/helpers/colorize.sh"
 source "${EPX_HOME}/helpers/colors.sh"
 
-if [[ ${1} = "-h" ]] || [[ ${1} = "--help" ]]; then
+if [[ "${1}" = "-h" ]] || [[ "${1}" = "--help" ]]; then
   echo -e "[$(_c LIGHT_BLUE "Docker - Compose")] $(_c LIGHT_YELLOW "Usage: d.compose [service name]")"
   exit
 fi
@@ -23,7 +23,7 @@ if ! cp -f "${EPX_HOME}/.templates/docker/docker-compose.template" docker-compos
   exit
 fi
 
-if [[ -n ${1} ]]; then
+if [[ -n "${1}" ]]; then
   sed -i "s/CHANGE_ME/${1}/g" docker-compose.yml
 fi
 

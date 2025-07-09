@@ -5,19 +5,19 @@ source "${EPX_HOME}/helpers/colors.sh"
 source "${EPX_HOME}/helpers/shared.sh"
 
 _strip_text() {
-  printf "%s" ${1} | sed 's/\x1b\[[0-9;]*m//g'
+  printf "%s" "${1}" | sed 's/\x1b\[[0-9;]*m//g'
 }
 
 _visible_length() {
-  _strip_text ${1} | wc -m
+  _strip_text "${1}" | wc -m
 }
 
-container_name=${1}
+container_name="${1}"
 
 # If no container name is provided or if the container name is "all", list all containers
 if [ -z "${container_name}" ] || [ "${container_name}" = "all" ]; then
   containers=$(docker ps -a --format "{{.Names}}")
-  for container in ${containers}; do
+  for container in "${containers}"; do
     d.stats "${container}"
   done
 
@@ -168,8 +168,8 @@ print_separator() {
 }
 
 print_row() {
-  attr=${1}
-  val=${2}
+  attr="${1}"
+  val="${2}"
 
   visible_len=$(_visible_length "${val}")
   invisible_len=$((${#val} - visible_len))
@@ -204,7 +204,7 @@ else
   done <<<"${environments}"
   IFS=$'\n' read -rd '' -a sorted_envs < <(printf "%s\n" "${envs_sorted[@]}" | sort && printf '\0')
   for env in "${sorted_envs[@]}"; do
-    if ${first_env}; then
+    if "${first_env}"; then
       print_row "Environments" "${env}"
       first_env=false
     else
@@ -227,7 +227,7 @@ else
   done <<<"${ports}"
   IFS=$'\n' read -rd '' -a sorted_ports < <(printf "%s\n" "${ports_sorted[@]}" | sort && printf '\0')
   for port in "${sorted_ports[@]}"; do
-    if ${first_port}; then
+    if "${first_port}"; then
       print_row "Ports" "${port}"
       first_port=false
     else
@@ -250,7 +250,7 @@ else
   done <<<"${volumes}"
   IFS=$'\n' read -rd '' -a sorted_volumes < <(printf "%s\n" "${volumes_sorted[@]}" | sort && printf '\0')
   for volume in "${sorted_volumes[@]}"; do
-    if ${first_volume}; then
+    if "${first_volume}"; then
       print_row "Volumes" "${volume}"
       first_volume=false
     else
@@ -267,7 +267,7 @@ if [ "${network_mode}" = "host" ]; then
 else
   first_network=true
   while IFS= read -r network; do
-    if ${first_network}; then
+    if "${first_network}"; then
       print_row "Networks" "${network}"
       first_network=false
     else
