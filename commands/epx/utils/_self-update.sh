@@ -1,6 +1,6 @@
 __epx_self_update() {
   if [ ! -d "$EPX_HOME" ]; then
-    __epx_echo "[$(_c LIGHT_BLUE "EPX - Self Update")] $(_c LIGHT_RED "The '$EPX_HOME' directory does not exist")\n"
+    echo -e "[$(_c LIGHT_BLUE "EPX - Self Update")] $(_c LIGHT_RED "The '$EPX_HOME' directory does not exist")\n"
     return
   fi
 
@@ -17,10 +17,10 @@ __epx_self_update() {
   if [ -f "$EPX_HOME/post-install.sh" ]; then
     "$EPX_HOME/post-install.sh"
   else
-    __epx_echo "[$(_c LIGHT_BLUE "EPX - Self Update")] $(_c LIGHT_RED "install.sh not found, skipping post-installation steps")\n"
+    echo -e "[$(_c LIGHT_BLUE "EPX - Self Update")] $(_c LIGHT_RED "install.sh not found, skipping post-installation steps")\n"
   fi
 
-  __epx_echo "[$(_c LIGHT_BLUE "EPX - Self Update")] $(_c LIGHT_GREEN "EPX has been updated successfully")\n"
+  echo -e "[$(_c LIGHT_BLUE "EPX - Self Update")] $(_c LIGHT_GREEN "EPX has been updated successfully")\n"
 
   cd - || exit
 }
