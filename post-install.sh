@@ -52,7 +52,4 @@ else
   echo "Linking script not found, skipping."
 fi
 
-chmod a+x "$EPX_BIN"
-source "$EPX_BIN"
-
-echo "EPX setup complete, if there's no autocomplete, please restart your terminal to apply changes."
+echo "EPX setup complete, please restart your terminal to apply changes."
