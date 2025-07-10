@@ -17,7 +17,7 @@ container_name="${1}"
 # If no container name is provided or if the container name is "all", list all containers
 if [ -z "${container_name}" ] || [ "${container_name}" = "all" ]; then
   containers=$(docker ps -a --format "{{.Names}}")
-  for container in "${containers}"; do
+  for container in ${containers}; do
     d.stats "${container}"
   done
 
