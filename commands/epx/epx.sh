@@ -29,8 +29,8 @@ echo -e "[$(_c LIGHT_BLUE "EPX")] $(_c LIGHT_YELLOW "Usage: epx <command> [args]
 echo -e "  $(_c CYAN "Commands:")"
 for cmd in "${!EPX_UTILS[@]}"; do
   entry="${EPX_UTILS[${cmd}]}"
-  desc=$(echo "${entry}" | awk -F'|' '{print "${1}"}' | xargs)
-  usage=$(echo "${entry}" | awk -F'|' '{print "${2}"}' | xargs)
+  desc=$(echo "${entry}" | awk -F'|' '{print $1}' | xargs)
+  usage=$(echo "${entry}" | awk -F'|' '{print $2}' | xargs)
   echo -e "    $(_c LIGHT_CYAN "${cmd}") - ${desc}"
   if [[ -n "${usage}" ]]; then
     echo -e "      $(_c LIGHT_YELLOW "Usage:") epx ${cmd} ${usage}"

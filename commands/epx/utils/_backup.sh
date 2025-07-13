@@ -70,11 +70,11 @@ __epx_backup__log_status_to_file() {
   local num_of_backups=$(find "${output_path}" -maxdepth 1 -name "*.tar.zst" -printf "%f\n" | wc -l)
 
   if [ -f "${output_zst_file}" ]; then
-    backup_size=$(du -h "${output_zst_file}" | awk '{print "${1}"}')
+    backup_size=$(du -h "${output_zst_file}" | awk '{print $2}')
   fi
 
   # Get the size of the backup directory, exclude log file
-  local total_size=$(du -h --exclude="backup-info.log" "${output_path}" | awk '{print "${1}"}')
+  local total_size=$(du -h --exclude="backup-info.log" "${output_path}" | awk '{print $2}')
 
   echo "${status} (${input_path}) (${backup_size}) (${total_size}) (${num_of_backups}/${backups_to_keep}) (${current_date})" >"${logfile}"
 
