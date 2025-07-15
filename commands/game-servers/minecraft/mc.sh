@@ -30,19 +30,6 @@ __epx-mc-get-java-type() {
     echo "graalvm"
   fi
 }
-__epx-mc-set-flags() {
-  local config_env="${1}"
-  local tmp_env_file="${2}"
-  local java_version=$(__epx-mc-get-env-value "${config_env}" "JAVA_VERSION")
-
-  # If JAVA_VERSION < 17 use AIKAR, else use MEOWICE flags
-  if [[ "${java_version}" -lt 17 ]]; then
-    echo "USE_AIKAR_FLAGS = true" >>"${tmp_env_file}"
-  else
-    echo "USE_MEOWICE_FLAGS = true" >>"${tmp_env_file}"
-    echo "USE_MEOWICE_GRAALVM_FLAGS = true" >>"${tmp_env_file}"
-  fi
-}
 __epx-mc-get-backup-enabled() {
   local config_env="${1}"
   local backup_enabled=$(__epx-mc-get-env-value "${config_env}" "BACKUP")
@@ -80,7 +67,6 @@ tmp_env_file=$(mktemp)
 echo "SERVER_TYPE = ${server_type}" >>"${tmp_env_file}"
 echo "SERVER_DIR = ${MINECRAFT_SERVERS_DIR}" >>"${tmp_env_file}"
 echo "JAVA_TYPE = ${java_type}" >>"${tmp_env_file}"
-__epx-mc-set-flags "${config_env}" "${tmp_env_file}"
 
 echo -e "Starting Minecraft Server"
 if [[ "${backup_enabled}" == "true" ]]; then
